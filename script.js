@@ -116,7 +116,7 @@ const calcDisplaySummary = function(ccAcc){
   labelSumIn.textContent= `${incomes}€`;
   const outcomes = movements.filter((value)=> value<0).reduce((acc,value)=>acc+value);
   labelSumOut.textContent= `${Math.abs(outcomes)}€`;
-  const interest = movements.filter((value)=>value>0).map((value)=> Math.trunc(ccAcc.interestRate/100*value)).filter((value)=> value>1).reduce((acc,value)=> acc+ value);
+  const interest = movements.filter((value)=>value>0).map((value)=> Number((ccAcc.interestRate/100*value).toFixed(2))).filter((value)=> value>1).reduce((acc,value)=> acc+ value);
   labelSumInterest.textContent=`${interest}€`;
 };
 
@@ -248,7 +248,7 @@ btnClose.addEventListener('click',function(e){
 //To get the Loan
 btnLoan.addEventListener('click',function(e){
   e.preventDefault();
-  let loanAmt = Number(inputLoanAmount.value);
+  let loanAmt = Math.floor(Number(inputLoanAmount.value));
   let maxDepositAmt = currentAccount.movements.some((value)=> value > 0 && loanAmt <= value/10 );
   if(loanAmt > 0 && maxDepositAmt){
     alert('Loan has been approved and money has been deposited in account .');
@@ -387,28 +387,13 @@ console.log(okayAmount(dogs));
 const sortDogs = dogs.slice().sort((a,b)=> a.rfp - b.rfp);
 console.log(sortDogs);
 
+//To change the color in every second row
+labelBalance.addEventListener('click',function(){
+  let rowMov = document.querySelectorAll(".movements__row");
+  [...rowMov].forEach((row,i)=>{
+    if(i%2===0) row.style.backgroundColor="green";
+  })
+})
 
-class List{
-  constructor(data){
-    this.head ={
-      value : data,
-      next : null
-    }
-    this.tail = this.head;
-    this.size = 1;
-  }
-  appendNode(nodeData){
-    let  newNode = {
-      value : nodeData,
-      next : null
-    }
-    this.tail.next = newNode;
-    this.tail = newNode;
-    this.size = this.size+1;
-  }
-}
-
-let list = new List(200);
-list.appendNode(232);
-list.appendNode(400);
-console.log(list);
+const datea=new Date(1,16,3);
+console.log(datea.getDate()+2);
