@@ -122,7 +122,7 @@ const updateData = function(account , sort = false){
     if(account.movementsDates){
     let dateOM = new Date(account.movementsDates[index]);
     let date = dateOM.getDate();
-    let month = dateOM.getMonth();
+    let month = dateOM.getMonth()+1;
     let year = dateOM.getFullYear();
     abd =`${date}/${month}/${year}`;
     }
