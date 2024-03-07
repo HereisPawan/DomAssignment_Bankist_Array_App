@@ -14,14 +14,14 @@ const account1 = {
   pin: 1111,
 
   movementsDates: [
-    "2019-11-18T21:31:17.178Z",
-    "2019-12-23T07:42:02.383Z",
-    "2020-01-28T09:15:04.904Z",
-    "2020-04-01T10:17:24.185Z",
-    "2020-05-08T14:11:59.604Z",
-    "2020-07-26T17:01:17.194Z",
-    "2020-07-28T23:36:17.929Z",
-    "2020-08-01T10:51:36.790Z",
+    "2024-01-03T21:31:17.178Z",
+    "2024-01-04T21:31:17.178Z",
+    "2024-01-11T21:31:17.178Z",
+    "2024-02-01T21:31:17.178Z",
+    "2024-02-04T21:31:17.178Z",
+    "2024-02-23T21:31:17.178Z",
+    "2024-03-02T21:31:17.178Z",
+    "2024-03-05T21:31:17.178Z",
   ],
   currency: "EUR",
   locale: "pt-PT", // de-DE
@@ -34,14 +34,14 @@ const account2 = {
   pin: 2222,
 
   movementsDates: [
-    "2019-11-01T13:15:33.035Z",
-    "2019-11-30T09:48:16.867Z",
-    "2019-12-25T06:04:23.907Z",
-    "2020-01-25T14:18:46.235Z",
-    "2020-02-05T16:33:06.386Z",
-    "2020-04-10T14:43:26.374Z",
-    "2020-06-25T18:49:59.371Z",
-    "2020-07-26T12:01:20.894Z",
+    "2024-01-01T21:31:17.178Z",
+    "2024-01-03T21:31:17.178Z",
+    "2024-01-29T21:31:17.178Z",
+    "2024-02-12T21:31:17.178Z",
+    "2024-02-19T21:31:17.178Z",
+    "2024-03-01T21:31:17.178Z",
+    "2024-03-03T21:31:17.178Z",
+    "2024-03-04T21:31:17.178Z",
   ],
   currency: "USD",
   locale: "en-US",
@@ -99,6 +99,21 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
+//Calculate days
+let calcDate = function(dateMov){
+  let dateN = new Date();;
+    const calcDaysPassed = (dateNow , dateMov)=>{
+      return Math.trunc((dateNow - dateMov)/(1000*60*60*24));
+    };
+    let dateOM = new Date(dateMov);
+    let date = dateOM.getDate();
+    let month = dateOM.getMonth()+1;
+    let year = dateOM.getFullYear();
+    let abd =`${date}/${month}/${year}`;
+    if(calcDaysPassed(dateN,dateOM)===0)return `Today`;
+    return calcDaysPassed(dateN,dateOM)<50 ? `${calcDaysPassed(dateN,dateOM)} days ago` : abd;
+}
+
 let movements;
 // const withdrawals = movements.filter((x)=> Math.abs(x<0));
 // console.log(withdrawals);
@@ -118,14 +133,7 @@ const updateData = function(account , sort = false){
   containerMovements.innerHTML=``;
   movs.forEach(function(movement , index){
     const type = movement>0 ? 'deposit' : 'withdrawal';
-    let abd = '';
-    if(account.movementsDates){
-    let dateOM = new Date(account.movementsDates[index]);
-    let date = dateOM.getDate();
-    let month = dateOM.getMonth()+1;
-    let year = dateOM.getFullYear();
-    abd =`${date}/${month}/${year}`;
-    }
+    let abd = account.movementsDates ? calcDate(account.movementsDates[index]): '';
     const updatedHtmlString = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
