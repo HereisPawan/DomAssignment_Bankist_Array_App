@@ -435,10 +435,6 @@ labelBalance.addEventListener('click',function(){
   })
 })
 
-//fake
-currentAccount=account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 1;
 //Print the Date in the Label
 let dat = new Date();
 let day = `${dat.getDate()}`.padStart(2,0);

@@ -4,4 +4,6 @@ It has hard coded data of 4 customers stored in an Array [accounts] . In the app
 
 😶‍🌫️Check the web app , live at - https://hereispawan.github.io/DomAssignment_Bankist_Array_App/
 
+Id/Password = js/1111 , jd/2222 , stw/3333
+
 Credits to Jonas Schmedtmann (The Complete JavaScript Course 2024: From Zero to Expert!)
