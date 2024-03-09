@@ -52,6 +52,7 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  currency: "USD"
 };
 
 const account4 = {
@@ -59,6 +60,7 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+  currency: "USD"
 };
 
 const accounts = [account1,account2,account3,account4];
@@ -141,12 +143,19 @@ const updateData = function(account , sort = false){
   containerMovements.innerHTML=``;
   movs.forEach(function(movement , index){
     const type = movement>0 ? 'deposit' : 'withdrawal';
+
+    //To change the currency and its number according to locale
+    let options = {
+      style : 'currency',
+      currency : account.currency
+    }
+    let conMovement = new Intl.NumberFormat(account.locale,options).format(movement);
     let abd = account.movementsDates ? calcDate(account.movementsDates[index]): '';
     const updatedHtmlString = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
       <div class="movements_date">${abd}</div>
-      <div class="movements__value">${movement}€</div>
+      <div class="movements__value">${conMovement}</div>
     </div>`
     containerMovements.insertAdjacentHTML('afterbegin', updatedHtmlString);
   })
@@ -157,7 +166,14 @@ const getBalance = function(account){
   let movements=account.movements;
   const balance = movements.reduce((acc , x )=> acc+x).toFixed(2);
   account.balance = balance;
-  labelBalance.textContent=balance + '€';
+
+  //To change the currency and its number according to locale
+  let options = {
+    style: "currency",
+    currency: account.currency
+  }
+  let conBalance = new Intl.NumberFormat(account.locale,options).format(balance);
+  labelBalance.textContent=conBalance;
 };
 
 
@@ -470,3 +486,6 @@ labelBalance.addEventListener('click',function(){
 // let dat = new Date();
 // let day = `${dat.getDate()}`.padStart(2,0);
 // labelDate.textContent=`${day}/${dat.getMonth()+1}/${dat.getFullYear()}, ${dat.getHours()}: ${dat.getMinutes()}`;
+
+const num=3882121.6;
+console.log(new Intl.NumberFormat('ar-SY').format(num));
