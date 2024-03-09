@@ -103,7 +103,7 @@ const currencies = new Map([
 
 //Calculate days
 let calcDate = function(dateMov){
-  let dateN = new Date();;
+  let dateN = new Date();
   //Format Date using new Date();
     // let dateOM = new Date(dateMov);
     // let date = dateOM.getDate();
@@ -258,7 +258,11 @@ btnLogin.addEventListener('click', function(e){
       year: 'numeric',
       weekday: 'long'
     }
-    let dateFormat = new Intl.DateTimeFormat(currentAccount.locale,options);
+    //Get the users locale and format time acc to it
+    let currLocal= navigator.language;
+    let loc= currentAccount.locale ? currentAccount.locale : currLocal;
+    console.log(loc);
+    let dateFormat = new Intl.DateTimeFormat(loc,options);
     labelDate.textContent=dateFormat.format(dateNow);
         
     const abc = Array.from(document.querySelectorAll('.movements__value'), v => v.textContent.replace('€',''));
