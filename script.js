@@ -89,6 +89,8 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+let currentAccount;
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -102,16 +104,22 @@ const currencies = new Map([
 //Calculate days
 let calcDate = function(dateMov){
   let dateN = new Date();;
-    const calcDaysPassed = (dateNow , dateMov)=>{
-      return Math.trunc((dateNow - dateMov)/(1000*60*60*24));
+  //Format Date using new Date();
+    // let dateOM = new Date(dateMov);
+    // let date = dateOM.getDate();
+    // let month = dateOM.getMonth()+1;
+    // let year = dateOM.getFullYear();
+    // let abd =`${date}/${month}/${year}`;
+    // return calcDaysPassed(dateN,dateOM)<50 ? `${calcDaysPassed(dateN,dateOM)} days ago` : abd;
+
+  //Format date using Intl Api
+    let dateStamp = new Date(dateMov);
+    const calcDaysPassed = (dateNow , dateInp)=>{
+      return Math.trunc((dateNow - dateInp)/(1000*60*60*24));
     };
-    let dateOM = new Date(dateMov);
-    let date = dateOM.getDate();
-    let month = dateOM.getMonth()+1;
-    let year = dateOM.getFullYear();
-    let abd =`${date}/${month}/${year}`;
-    if(calcDaysPassed(dateN,dateOM)===0)return `Today`;
-    return calcDaysPassed(dateN,dateOM)<50 ? `${calcDaysPassed(dateN,dateOM)} days ago` : abd;
+    if(calcDaysPassed(dateN,dateStamp)===0)return `Today`;
+    let dateIntl = new Intl.DateTimeFormat(currentAccount.locale);
+    return calcDaysPassed(dateN,dateStamp) > 15 ? dateIntl.format(dateStamp) : `${calcDaysPassed(dateN,dateStamp)} days ago`;
 }
 
 let movements;
@@ -212,7 +220,7 @@ GOOD LUCK 😀
 */
 
 /////////////////////////////////////////////////
-let currentAccount;
+
 
 const updateUI = function(account){
       //Display movements
@@ -242,8 +250,19 @@ btnLogin.addEventListener('click', function(e){
     updateUI(currentAccount);
     console.log(accounts.indexOf(currentAccount));
     
-const abc = Array.from(document.querySelectorAll('.movements__value'), v => v.textContent.replace('€',''));
-console.log(abc);
+    //Print the date using intl Api (Internationalizating Dates)
+    let dateNow = new Date();
+    const options = {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      weekday: 'long'
+    }
+    let dateFormat = new Intl.DateTimeFormat(currentAccount.locale,options);
+    labelDate.textContent=dateFormat.format(dateNow);
+        
+    const abc = Array.from(document.querySelectorAll('.movements__value'), v => v.textContent.replace('€',''));
+    console.log(abc);
   }
 });
 
@@ -444,6 +463,6 @@ labelBalance.addEventListener('click',function(){
 })
 
 //Print the Date in the Label
-let dat = new Date();
-let day = `${dat.getDate()}`.padStart(2,0);
-labelDate.textContent=`${day}/${dat.getMonth()+1}/${dat.getFullYear()}, ${dat.getHours()}: ${dat.getMinutes()}`;
+// let dat = new Date();
+// let day = `${dat.getDate()}`.padStart(2,0);
+// labelDate.textContent=`${day}/${dat.getMonth()+1}/${dat.getFullYear()}, ${dat.getHours()}: ${dat.getMinutes()}`;
