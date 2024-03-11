@@ -1,135 +1,138 @@
-'use strict';
+'use strict'
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
 
 // Data
-let varName = 123;
-const obj ={};
+const obj = {}
 const account1 = {
-  owner: "Gaurav Joshi",
-  movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
-  interestRate: 1.2, // %
-  pin: 1111,
+    owner: 'Gaurav Joshi',
+    movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
+    interestRate: 1.2, // %
+    pin: 1111,
 
-  movementsDates: [
-    "2024-01-03T21:31:17.178Z",
-    "2024-01-04T21:31:17.178Z",
-    "2024-01-11T21:31:17.178Z",
-    "2024-02-01T21:31:17.178Z",
-    "2024-02-04T21:31:17.178Z",
-    "2024-02-23T21:31:17.178Z",
-    "2024-03-02T21:31:17.178Z",
-    "2024-03-05T21:31:17.178Z",
-  ],
-  currency: "EUR",
-  locale: "pt-PT", // de-DE
-};
+    movementsDates: [
+        '2024-01-03T21:31:17.178Z',
+        '2024-01-04T21:31:17.178Z',
+        '2024-01-11T21:31:17.178Z',
+        '2024-02-01T21:31:17.178Z',
+        '2024-02-04T21:31:17.178Z',
+        '2024-02-23T21:31:17.178Z',
+        '2024-03-02T21:31:17.178Z',
+        '2024-03-05T21:31:17.178Z',
+    ],
+    currency: 'EUR',
+    locale: 'pt-PT', // de-DE
+}
 
 const account2 = {
-  owner: "Pawan Bora",
-  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
-  interestRate: 1.5,
-  pin: 2222,
+    owner: 'Pawan Bora',
+    movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+    interestRate: 1.5,
+    pin: 2222,
 
-  movementsDates: [
-    "2024-01-01T21:31:17.178Z",
-    "2024-01-03T21:31:17.178Z",
-    "2024-01-29T21:31:17.178Z",
-    "2024-02-12T21:31:17.178Z",
-    "2024-02-19T21:31:17.178Z",
-    "2024-03-01T21:31:17.178Z",
-    "2024-03-03T21:31:17.178Z",
-    "2024-03-04T21:31:17.178Z",
-  ],
-  currency: "USD",
-  locale: "en-US",
-};
+    movementsDates: [
+        '2024-01-01T21:31:17.178Z',
+        '2024-01-03T21:31:17.178Z',
+        '2024-01-29T21:31:17.178Z',
+        '2024-02-12T21:31:17.178Z',
+        '2024-02-19T21:31:17.178Z',
+        '2024-03-01T21:31:17.178Z',
+        '2024-03-03T21:31:17.178Z',
+        '2024-03-04T21:31:17.178Z',
+    ],
+    currency: 'USD',
+    locale: 'en-US',
+}
 
 const account3 = {
-  owner: 'Teja Swaroop',
-  movements: [200, -200, 340, -300, -20, 50, 400, -460],
-  interestRate: 0.7,
-  pin: 3333,
-  currency: "USD"
-};
+    owner: 'Teja Swaroop',
+    movements: [200, -200, 340, -300, -20, 50, 400, -460],
+    interestRate: 0.7,
+    pin: 3333,
+    currency: 'USD',
+}
 
 const account4 = {
-  owner: 'Amandeep Singh',
-  movements: [430, 1000, 700, 50, 90],
-  interestRate: 1,
-  pin: 4444,
-  currency: "USD"
-};
+    owner: 'Amandeep Singh',
+    movements: [430, 1000, 700, 50, 90],
+    interestRate: 1,
+    pin: 4444,
+    currency: 'USD',
+}
 
-const accounts = [account1,account2,account3,account4];
+const accounts = [account1, account2, account3, account4]
 
 // Elements
-const labelWelcome = document.querySelector('.welcome');
-const labelDate = document.querySelector('.date');
-const labelBalance = document.querySelector('.balance__value');
-const labelSumIn = document.querySelector('.summary__value--in');
-const labelSumOut = document.querySelector('.summary__value--out');
-const labelSumInterest = document.querySelector('.summary__value--interest');
-const labelTimer = document.querySelector('.timer');
+const labelWelcome = document.querySelector('.welcome')
+const labelDate = document.querySelector('.date')
+const labelBalance = document.querySelector('.balance__value')
+const labelSumIn = document.querySelector('.summary__value--in')
+const labelSumOut = document.querySelector('.summary__value--out')
+const labelSumInterest = document.querySelector('.summary__value--interest')
+const labelTimer = document.querySelector('.timer')
 
-const containerApp = document.querySelector('.app');
-const containerMovements = document.querySelector('.movements');
+const containerApp = document.querySelector('.app')
+const containerMovements = document.querySelector('.movements')
 
-const btnLogin = document.querySelector('.login__btn');
-const btnTransfer = document.querySelector('.form__btn--transfer');
-const btnLoan = document.querySelector('.form__btn--loan');
-const btnClose = document.querySelector('.form__btn--close');
-const btnSort = document.querySelector('.btn--sort');
+const btnLogin = document.querySelector('.login__btn')
+const btnTransfer = document.querySelector('.form__btn--transfer')
+const btnLoan = document.querySelector('.form__btn--loan')
+const btnClose = document.querySelector('.form__btn--close')
+const btnSort = document.querySelector('.btn--sort')
 
-const inputLoginUsername = document.querySelector('.login__input--user');
-const inputLoginPin = document.querySelector('.login__input--pin');
-const inputTransferTo = document.querySelector('.form__input--to');
-const inputTransferAmount = document.querySelector('.form__input--amount');
-const inputLoanAmount = document.querySelector('.form__input--loan-amount');
-const inputCloseUsername = document.querySelector('.form__input--user');
-const inputClosePin = document.querySelector('.form__input--pin');
+const inputLoginUsername = document.querySelector('.login__input--user')
+const inputLoginPin = document.querySelector('.login__input--pin')
+const inputTransferTo = document.querySelector('.form__input--to')
+const inputTransferAmount = document.querySelector('.form__input--amount')
+const inputLoanAmount = document.querySelector('.form__input--loan-amount')
+const inputCloseUsername = document.querySelector('.form__input--user')
+const inputClosePin = document.querySelector('.form__input--pin')
 
-let currentAccount , timerActive=0 , timerInterval , clearApp;
+let currentAccount,
+    timerActive = 0,
+    timerInterval,
+    clearApp,
+    sorted = false
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
 const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+    ['USD', 'United States dollar'],
+    ['EUR', 'Euro'],
+    ['GBP', 'Pound sterling'],
+])
 
-//Create a clock timer of 2 min 
-let timerClock = function(){
-  labelTimer.textContent=`02 : 00`;
-  let t = 59;
-  let min = 1;
-  timerInterval = setInterval(()=>{
-    labelTimer.textContent=`0${min} : ${(t+'').padStart(2,0)}`;
-    t--;
-    if(t<0){
-       t=59;
-       --min;
-    }
-  },1000);
+//Create a clock timer of 2 min
+let timerClock = function () {
+    labelTimer.textContent = `02 : 00`
+    let t = 59
+    let min = 1
+    timerInterval = setInterval(() => {
+        labelTimer.textContent = `0${min} : ${(t + '').padStart(2, 0)}`
+        t--
+        if (t < 0) {
+            t = 59
+            --min
+        }
+    }, 1000)
 
-  //To log out the account and stop the clock when reached 2 min time limit
-  clearApp = setTimeout(()=>{
-    containerApp.style.opacity=0;
-    clearInterval(timerInterval);
-  },120000);
+    //To log out the account and stop the clock when reached 2 min time limit
+    clearApp = setTimeout(() => {
+        containerApp.style.opacity = 0
+        clearInterval(timerInterval)
+    }, 120000)
 
-  timerActive=1;
+    timerActive = 1
 }
 
 //Calculate days
-let calcDate = function(dateMov){
-  let dateN = new Date();
-  //Format Date using new Date();
+let calcDate = function (dateMov) {
+    let dateN = new Date()
+    //Format Date using new Date();
     // let dateOM = new Date(dateMov);
     // let date = dateOM.getDate();
     // let month = dateOM.getMonth()+1;
@@ -137,79 +140,106 @@ let calcDate = function(dateMov){
     // let abd =`${date}/${month}/${year}`;
     // return calcDaysPassed(dateN,dateOM)<50 ? `${calcDaysPassed(dateN,dateOM)} days ago` : abd;
 
-  //Format date using Intl Api
-    let dateStamp = new Date(dateMov);
-    const calcDaysPassed = (dateNow , dateInp)=>{
-      return Math.trunc((dateNow - dateInp)/(1000*60*60*24));
-    };
-    if(calcDaysPassed(dateN,dateStamp)===0)return `Today`;
-    let dateIntl = new Intl.DateTimeFormat(currentAccount.locale);
-    return calcDaysPassed(dateN,dateStamp) > 15 ? dateIntl.format(dateStamp) : `${calcDaysPassed(dateN,dateStamp)} days ago`;
+    //Format date using Intl Api
+    let dateStamp = new Date(dateMov)
+    const calcDaysPassed = (dateNow, dateInp) => {
+        return Math.trunc((dateNow - dateInp) / (1000 * 60 * 60 * 24))
+    }
+    if (calcDaysPassed(dateN, dateStamp) === 0) return `Today`
+    let dateIntl = new Intl.DateTimeFormat(currentAccount.locale)
+    return calcDaysPassed(dateN, dateStamp) > 15
+        ? dateIntl.format(dateStamp)
+        : `${calcDaysPassed(dateN, dateStamp)} days ago`
 }
 
-let movements;
+let movements
 // const withdrawals = movements.filter((x)=> Math.abs(x<0));
 // console.log(withdrawals);
 // const movementsDollar = movements.map(function(x){return x*1.1});
 // console.log(movementsDollar);
 
-const createUsernames = function(xyz){
-  xyz.forEach(function(value){
-    value.username = value.owner.toLowerCase().split(' ').map((value)=> value.slice(0,1)).join('');
-  })
+//Create UserName and push them in their respective users object
+const createUsernames = function (xyz) {
+    xyz.forEach(function (value) {
+        value.username = value.owner
+            .toLowerCase()
+            .split(' ')
+            .map((value) => value.slice(0, 1))
+            .join('')
+    })
 }
 
-createUsernames(accounts);
-const updateData = function(account , sort = false){
-  let movements=account.movements;
-  const movs = sort ? movements.slice().sort((a,b)=> a-b) : movements;
-  containerMovements.innerHTML=``;
-  movs.forEach(function(movement , index){
-    const type = movement>0 ? 'deposit' : 'withdrawal';
+createUsernames(accounts)
 
-    //To change the currency and its number according to locale
-    let options = {
-      style : 'currency',
-      currency : account.currency
-    }
-    let conMovement = new Intl.NumberFormat(account.locale,options).format(movement);
-    let abd = account.movementsDates ? calcDate(account.movementsDates[index]): '';
-    const updatedHtmlString = `
+//Update UI acc to user's Data
+const updateData = function (account, sort = false) {
+    let movements = account.movements
+    const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
+    containerMovements.innerHTML = ``
+    movs.forEach(function (movement, index) {
+        const type = movement > 0 ? 'deposit' : 'withdrawal'
+
+        //To change the currency and its number according to locale
+        let options = {
+            style: 'currency',
+            currency: account.currency,
+        }
+        let conMovement = new Intl.NumberFormat(account.locale, options).format(
+            movement
+        )
+        let abd = account.movementsDates
+            ? calcDate(account.movementsDates[index])
+            : ''
+        const updatedHtmlString = `
     <div class="movements__row">
-      <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
+      <div class="movements__type movements__type--${type}">${
+            index + 1
+        } ${type}</div>
       <div class="movements_date">${abd}</div>
       <div class="movements__value">${conMovement}</div>
     </div>`
-    containerMovements.insertAdjacentHTML('afterbegin', updatedHtmlString);
-  })
-};
+        containerMovements.insertAdjacentHTML('afterbegin', updatedHtmlString)
+    })
+}
 
+//Get the balance of user
+const getBalance = function (account) {
+    let movements = account.movements
+    const balance = movements.reduce((acc, x) => acc + x).toFixed(2)
+    account.balance = balance
 
-const getBalance = function(account){
-  let movements=account.movements;
-  const balance = movements.reduce((acc , x )=> acc+x).toFixed(2);
-  account.balance = balance;
+    //To change the currency and its number according to locale
+    let options = {
+        style: 'currency',
+        currency: account.currency,
+    }
+    let conBalance = new Intl.NumberFormat(account.locale, options).format(
+        balance
+    )
+    labelBalance.textContent = conBalance
+}
 
-  //To change the currency and its number according to locale
-  let options = {
-    style: "currency",
-    currency: account.currency
-  }
-  let conBalance = new Intl.NumberFormat(account.locale,options).format(balance);
-  labelBalance.textContent=conBalance;
-};
-
-
-const calcDisplaySummary = function(ccAcc){
-  let movements = ccAcc.movements;
-  const incomes = movements.filter((value) => value>0).reduce((acc,value)=> acc+value).toFixed(2);
-  labelSumIn.textContent= `${incomes}€`;
-  const outcomes = movements.filter((value)=> value<0).reduce((acc,value)=>acc+value).toFixed(2);
-  labelSumOut.textContent= `${Math.abs(outcomes)}€`;
-  const interest = movements.filter((value)=>value>0).map((value)=> Number((ccAcc.interestRate/100*value).toFixed(2))).filter((value)=> value>1).reduce((acc,value)=> acc+ value).toFixed(2);
-  labelSumInterest.textContent=`${interest}€`;
-};
-
+//Calculate Deposits , Withdrawals and Interest of user
+const calcDisplaySummary = function (ccAcc) {
+    let movements = ccAcc.movements
+    const incomes = movements
+        .filter((value) => value > 0)
+        .reduce((acc, value) => acc + value)
+        .toFixed(2)
+    labelSumIn.textContent = `${incomes}€`
+    const outcomes = movements
+        .filter((value) => value < 0)
+        .reduce((acc, value) => acc + value)
+        .toFixed(2)
+    labelSumOut.textContent = `${Math.abs(outcomes)}€`
+    const interest = movements
+        .filter((value) => value > 0)
+        .map((value) => Number(((ccAcc.interestRate / 100) * value).toFixed(2)))
+        .filter((value) => value > 1)
+        .reduce((acc, value) => acc + value)
+        .toFixed(2)
+    labelSumInterest.textContent = `${interest}€`
+}
 
 ///////////////////////////////////////
 // Coding Challenge #2
@@ -248,7 +278,6 @@ GOOD LUCK 😀
 // console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 // console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
 
-
 /* 
 Rewrite the 'calcAverageHumanAge' function from the previous challenge, but this time as an arrow function, and using chaining!
 
@@ -260,169 +289,205 @@ GOOD LUCK 😀
 
 /////////////////////////////////////////////////
 
+//Update UI method which updates movements , balance and balance summary at once
+const updateUI = function (account) {
+    //Display movements
+    updateData(account)
 
-const updateUI = function(account){
-      //Display movements
-      updateData(account);
+    //Display balance
+    getBalance(account)
 
-      //Display balance
-      getBalance(account);
+    //Display summary
+    calcDisplaySummary(account)
+}
 
-      //Display summary
-      calcDisplaySummary(account);
-};
-btnLogin.addEventListener('click', function(e){
-  //Prevent Form from submitting
-  e.preventDefault();
+//Event listener when user logs in
+btnLogin.addEventListener('click', function (e) {
+    //Prevent Form from submitting
+    e.preventDefault()
 
     //Close the clock if timerActive is equal to 1;
-    if(timerActive===1){
-      timerActive=0;
-      clearInterval(timerInterval);
-      clearTimeout(clearApp);
+    if (timerActive === 1) {
+        timerActive = 0
+        clearInterval(timerInterval)
+        clearTimeout(clearApp)
     }
-  timerClock();
+    timerClock()
 
-  currentAccount= accounts.find(function(value){
-    return value.username === inputLoginUsername.value;
-  })
-  console.log(currentAccount);
-  if(currentAccount?.pin=== Number(inputLoginPin.value)){
-    //Display UI and Welcome Msg
-    containerApp.style.opacity='1';
-    labelWelcome.textContent= `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
+    currentAccount = accounts.find(function (value) {
+        return value.username === inputLoginUsername.value
+    })
+    console.log(currentAccount)
+    if (currentAccount?.pin === Number(inputLoginPin.value)) {
+        //Display UI and Welcome Msg
+        containerApp.style.opacity = '1'
+        labelWelcome.textContent = `Welcome back, ${
+            currentAccount.owner.split(' ')[0]
+        }`
 
-    // Clear the input fields
-    inputLoginUsername.value=inputLoginPin.value='';
-    inputLoginPin.blur();
-    updateUI(currentAccount);
-    console.log(accounts.indexOf(currentAccount));
-    
-    //Print the date using intl Api (Internationalizating Dates)
-    let dateNow = new Date();
-    const options = {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-      weekday: 'long'
+        // Clear the input fields
+        inputLoginUsername.value = inputLoginPin.value = ''
+        inputLoginPin.blur()
+        updateUI(currentAccount)
+        console.log(accounts.indexOf(currentAccount))
+
+        //Print the date using intl Api (Internationalizating Dates)
+        let dateNow = new Date()
+        const options = {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric',
+            weekday: 'long',
+        }
+        //Get the users locale and format time acc to it
+        let currLocal = navigator.language
+        let loc = currentAccount.locale ? currentAccount.locale : currLocal
+        console.log(loc)
+        let dateFormat = new Intl.DateTimeFormat(loc, options)
+        labelDate.textContent = dateFormat.format(dateNow)
+        const abc = Array.from(
+            document.querySelectorAll('.movements__value'),
+            (v) => v.textContent.replace('€', '')
+        )
+        console.log(abc)
     }
-    //Get the users locale and format time acc to it
-    let currLocal= navigator.language;
-    let loc= currentAccount.locale ? currentAccount.locale : currLocal;
-    console.log(loc);
-    let dateFormat = new Intl.DateTimeFormat(loc,options);
-    labelDate.textContent=dateFormat.format(dateNow);
-    const abc = Array.from(document.querySelectorAll('.movements__value'), v => v.textContent.replace('€',''));
-    console.log(abc);
-  }
-});
+})
 
+//Money Transfer Event Listener
+btnTransfer.addEventListener('click', function (e) {
+    e.preventDefault()
+    //Get the values
+    let toTransfer = inputTransferTo.value
+    let valueTransfer = Number(inputTransferAmount.value)
+    inputTransferTo.value = inputTransferAmount.value = ''
 
-btnTransfer.addEventListener('click',function(e){
-  e.preventDefault();
-  //Get the values
-  let toTransfer= inputTransferTo.value;
-  let valueTransfer = Number(inputTransferAmount.value);
-  inputTransferTo.value = inputTransferAmount.value = '';
+    //Add Withdrawal in array movements
+    inputTransferAmount.blur()
+    if (
+        valueTransfer <= 0 ||
+        currentAccount.balance < valueTransfer ||
+        !toTransfer ||
+        toTransfer === currentAccount.username
+    ) {
+        console.log('error')
+    } else {
+        currentAccount.movements.push(-valueTransfer)
+        let date = new Date()
+        if (currentAccount.movementsDates)
+            currentAccount.movementsDates.push(date.toISOString())
+        console.log(currentAccount.movements)
 
-  //Add Withdrawal in array movements 
-  inputTransferAmount.blur();
-  if(valueTransfer<=0 || currentAccount.balance<valueTransfer || !toTransfer || toTransfer===currentAccount.username){
-    console.log('error')
-  }
-  else{
-  currentAccount.movements.push(-valueTransfer);
-  let date = new Date();
-  if(currentAccount.movementsDates) currentAccount.movementsDates.push(date.toISOString());
-  console.log(currentAccount.movements);
+        //Add the tranfer amount in other users movements
+        const accountToTransfer = accounts.find(function (value) {
+            return value.username === toTransfer
+        })
+        console.log(currentAccount.balance < valueTransfer)
+        accountToTransfer.movements.push(valueTransfer)
+        if (accountToTransfer.movementsDates)
+            accountToTransfer.movementsDates.push(date.toISOString())
+        updateUI(currentAccount)
+    }
 
-  //Add the tranfer amount in other users movements
-  const accountToTransfer = accounts.find(function(value){
-    return value.username === toTransfer;
-  });
-  console.log(currentAccount.balance<valueTransfer);
-  accountToTransfer.movements.push(valueTransfer);
-  if(accountToTransfer.movementsDates)accountToTransfer.movementsDates.push(date.toISOString());
-  updateUI(currentAccount);
-  };
-
-  //Reset Timer
-  clearInterval(timerInterval);
-  clearTimeout(clearApp);
-  timerClock();
+    //Reset Timer
+    clearInterval(timerInterval)
+    clearTimeout(clearApp)
+    timerClock()
 })
 
 //To close the account
-btnClose.addEventListener('click',function(e){
-  e.preventDefault();
-  if(inputCloseUsername.value === currentAccount.username && Number(inputClosePin.value) === currentAccount.pin){
-    accounts.splice(accounts.findIndex((value)=> value.username === currentAccount.username),1);
-    containerApp.style.opacity='0';
-  }
-  else{
-    alert("Wrong pin or username ");
-  }
-  inputCloseUsername.value = inputClosePin.value = '';
-  inputClosePin.blur();
+btnClose.addEventListener('click', function (e) {
+    e.preventDefault()
+    if (
+        inputCloseUsername.value === currentAccount.username &&
+        Number(inputClosePin.value) === currentAccount.pin
+    ) {
+        accounts.splice(
+            accounts.findIndex(
+                (value) => value.username === currentAccount.username
+            ),
+            1
+        )
+        containerApp.style.opacity = '0'
+    } else {
+        alert('Wrong pin or username ')
+    }
+    inputCloseUsername.value = inputClosePin.value = ''
+    inputClosePin.blur()
 })
 
 //To get the Loan
-btnLoan.addEventListener('click',function(e){
-  e.preventDefault();
-  let loanAmt = Math.floor(Number(inputLoanAmount.value));
-  let maxDepositAmt = currentAccount.movements.some((value)=> value > 0 && loanAmt <= value/10 );
-  if(loanAmt > 0 && maxDepositAmt){
-    setTimeout(
-    function(){
-      alert('Loan has been approved and money has been deposited in account .');
-    currentAccount.movements.push(loanAmt);
-    let date = new Date();
-    currentAccount.movementsDates.push(date.toISOString());
-    updateUI(currentAccount);
-    },5000
+btnLoan.addEventListener('click', function (e) {
+    e.preventDefault()
+    let loanAmt = Math.floor(Number(inputLoanAmount.value))
+    let maxDepositAmt = currentAccount.movements.some(
+        (value) => value > 0 && loanAmt <= value / 10
     )
-  }
-  else {
-    alert(`You are not eligible for Loan`);
-  }
-inputLoanAmount.value='';
-inputLoanAmount.blur(); 
+    if (loanAmt > 0 && maxDepositAmt) {
+        setTimeout(function () {
+            alert(
+                'Loan has been approved and money has been deposited in account .'
+            )
+            currentAccount.movements.push(loanAmt)
+            let date = new Date()
+            currentAccount.movementsDates.push(date.toISOString())
+            updateUI(currentAccount)
+        }, 5000)
+    } else {
+        alert(`You are not eligible for Loan`)
+    }
+    inputLoanAmount.value = ''
+    inputLoanAmount.blur()
 
     //Reset Timer
-    clearTimeout(clearApp);
-    clearInterval(timerInterval);
-    timerClock(); 
-});
-movements = [100,-100];
-console.log(movements.includes(-100));
+    clearTimeout(clearApp)
+    clearInterval(timerInterval)
+    timerClock()
+})
 
-const completeBalance = accounts.flatMap(function(value){
-  return value.movements;
-}).reduce((acc,value)=> acc= acc + value);
-console.log(completeBalance);
+movements = [100, -100]
+console.log(movements.includes(-100))
 
-let sorted = false;
-btnSort.addEventListener('click', function(){
-  updateData(currentAccount, !sorted);
-  sorted = !sorted;
+const completeBalance = accounts
+    .flatMap(function (value) {
+        return value.movements
+    })
+    .reduce((acc, value) => (acc = acc + value))
+console.log(completeBalance)
+
+//Sort the movements
+btnSort.addEventListener('click', function () {
+    updateData(currentAccount, !sorted)
+    sorted = !sorted
 
     //Reset Timer
-    clearTimeout(clearApp);
-    clearInterval(timerInterval);
-    timerClock();
-});
+    clearTimeout(clearApp)
+    clearInterval(timerInterval)
+    timerClock()
+})
 
-const bankDepositSum =  accounts.flatMap((value)=> value.movements).filter((value)=> value>0).reduce((acc , value)=> acc+value);
-console.log(bankDepositSum);
+const bankDepositSum = accounts
+    .flatMap((value) => value.movements)
+    .filter((value) => value > 0)
+    .reduce((acc, value) => acc + value)
+console.log(bankDepositSum)
 
-const numDeposits1000 = accounts.flatMap(value => value.movements).reduce((acc,value) => value>1000 ? acc+1 : acc+0,0);
-console.log(numDeposits1000);
+const numDeposits1000 = accounts
+    .flatMap((value) => value.movements)
+    .reduce((acc, value) => (value > 1000 ? acc + 1 : acc + 0), 0)
+console.log(numDeposits1000)
 
-const {deposits,withdrals} = accounts.flatMap(value=> value.movements).reduce( (acc,value) => {
-  value > 0 ? acc.deposits = acc.deposits+value : acc.withdrals = acc.withdrals + value ; 
-  return acc},
-  { deposits : 0 , withdrals : 0});
-console.log(deposits , withdrals);
+const { deposits, withdrals } = accounts
+    .flatMap((value) => value.movements)
+    .reduce(
+        (acc, value) => {
+            value > 0
+                ? (acc.deposits = acc.deposits + value)
+                : (acc.withdrals = acc.withdrals + value)
+            return acc
+        },
+        { deposits: 0, withdrals: 0 }
+    )
+console.log(deposits, withdrals)
 
 ///////////////////////////////////////
 // Coding Challenge #4
@@ -455,81 +520,88 @@ const dogs = [
 GOOD LUCK 😀
 */
 const dogs = [
-  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
-  { weight: 8, curFood: 200, owners: ['Matilda'] },
-  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
-  { weight: 32, curFood: 340, owners: ['Michael'] }
-];
+    { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+    { weight: 8, curFood: 200, owners: ['Matilda'] },
+    { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+    { weight: 32, curFood: 340, owners: ['Michael'] },
+]
 
-dogs.forEach((value)=>{
-  value.rfp = Math.trunc(value.weight ** 0.75 * 28);
+dogs.forEach((value) => {
+    value.rfp = Math.trunc(value.weight ** 0.75 * 28)
 })
-console.log(dogs);
+console.log(dogs)
 
-const dogsFoodHealth = function(obj){
-  if(obj.curFood >= obj.rfp/10+obj.rfp){
-    console.log('Too much');
-  }
-  else if(obj.curFood <= obj.rfp -obj.rfp/10) console.log('too little');
+const dogsFoodHealth = function (obj) {
+    if (obj.curFood >= obj.rfp / 10 + obj.rfp) {
+        console.log('Too much')
+    } else if (obj.curFood <= obj.rfp - obj.rfp / 10) console.log('too little')
 }
-const sarahDogs = function(dogs){
-  dogs.forEach((value)=>{
-    if(value.owners.includes('Sarah')) dogsFoodHealth(value);
-  })
+const sarahDogs = function (dogs) {
+    dogs.forEach((value) => {
+        if (value.owners.includes('Sarah')) dogsFoodHealth(value)
+    })
 }
-sarahDogs(dogs);
+sarahDogs(dogs)
 
-const ownersEatTooMuch = dogs.filter(value=>{
-  if(value.curFood >= value.rfp/10+value.rfp) return value;
-}).flatMap(value => value.owners);
+const ownersEatTooMuch = dogs
+    .filter((value) => {
+        if (value.curFood >= value.rfp / 10 + value.rfp) return value
+    })
+    .flatMap((value) => value.owners)
 
-const ownersEatTooLess = dogs.filter(value=>{
-  if(value.curFood <= value.rfp - value.rfp/10) return value;
-}).flatMap(value => value.owners);
+const ownersEatTooLess = dogs
+    .filter((value) => {
+        if (value.curFood <= value.rfp - value.rfp / 10) return value
+    })
+    .flatMap((value) => value.owners)
 
-console.log(ownersEatTooMuch);
-console.log(ownersEatTooLess);
+console.log(ownersEatTooMuch)
+console.log(ownersEatTooLess)
 // Matilda and Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat too little!
 
-const logData = function(arr,arr2){
-  let abc = arr2.reduce((acc,value,i,arr)=>{
-    return acc + `${value} ${arr[i+1] ? 'and ' : ''}`;
-  },``)+'eat too much!';
-  let bcd = arr.reduce((acc,value,i,arr)=>{
-    return acc + `${value} ${arr[i+1] ? 'and ' : ''}`;
-  },``)+'eat too little!';
-  return console.log(`"${bcd}" and "${abc}"`);
+const logData = function (arr, arr2) {
+    let abc =
+        arr2.reduce((acc, value, i, arr) => {
+            return acc + `${value} ${arr[i + 1] ? 'and ' : ''}`
+        }, ``) + 'eat too much!'
+    let bcd =
+        arr.reduce((acc, value, i, arr) => {
+            return acc + `${value} ${arr[i + 1] ? 'and ' : ''}`
+        }, ``) + 'eat too little!'
+    return console.log(`"${bcd}" and "${abc}"`)
 }
 
-logData(ownersEatTooLess,ownersEatTooMuch);
+logData(ownersEatTooLess, ownersEatTooMuch)
 
-const correctAmount = function(dogs){
-  return dogs.some((value)=>{
-    return value.curFood == value.rfp;
-  })
+const correctAmount = function (dogs) {
+    return dogs.some((value) => {
+        return value.curFood == value.rfp
+    })
 }
-const okayAmount = function(dogs){
-  return dogs.some((value)=>{
-    return value.curFood >= value.rfp*.90 && value.curFood <= value.rfp*1.10 ;
-  })
+const okayAmount = function (dogs) {
+    return dogs.some((value) => {
+        return (
+            value.curFood >= value.rfp * 0.9 && value.curFood <= value.rfp * 1.1
+        )
+    })
 }
 
-const okayDogs = dogs.filter((value)=>{
-  return value.curFood >= value.rfp*.90 && value.curFood <= value.rfp*1.10 ;
-});
-console.log(okayDogs);
-console.log(correctAmount(dogs));
-console.log(okayAmount(dogs));
+const okayDogs = dogs.filter((value) => {
+    return value.curFood >= value.rfp * 0.9 && value.curFood <= value.rfp * 1.1
+})
+console.log(okayDogs)
+console.log(correctAmount(dogs))
+console.log(okayAmount(dogs))
 
-const sortDogs = dogs.slice().sort((a,b)=> a.rfp - b.rfp);
-console.log(sortDogs);
+const sortDogs = dogs.slice().sort((a, b) => a.rfp - b.rfp)
+console.log(sortDogs)
 
 //To change the color in every second row
-labelBalance.addEventListener('click',function(){
-  let rowMov = document.querySelectorAll(".movements__row");
-  [...rowMov].forEach((row,i)=>{
-    if(i%2===0) row.style.backgroundColor="green";
-  })
+labelBalance.addEventListener('click', function () {
+    let rowMov = document.querySelectorAll('.movements__row')
+    ;[...rowMov].forEach((row, i) => {
+        if (i % 2 === 0) row.style.backgroundColor = 'green'
+    })
 })
 
 //Print the Date in the Label
