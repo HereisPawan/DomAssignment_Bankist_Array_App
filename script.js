@@ -8,7 +8,7 @@
 let varName = 123;
 const obj ={};
 const account1 = {
-  owner: "Jonas Schmedtmann",
+  owner: "Gaurav Joshi",
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
   interestRate: 1.2, // %
   pin: 1111,
@@ -28,7 +28,7 @@ const account1 = {
 };
 
 const account2 = {
-  owner: "Jessica Davis",
+  owner: "Pawan Bora",
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
@@ -48,7 +48,7 @@ const account2 = {
 };
 
 const account3 = {
-  owner: 'Steven Thomas Williams',
+  owner: 'Teja Swaroop',
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
@@ -56,7 +56,7 @@ const account3 = {
 };
 
 const account4 = {
-  owner: 'Sarah Smith',
+  owner: 'Amandeep Singh',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
@@ -91,7 +91,7 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-let currentAccount;
+let currentAccount , timerActive=0 , timerInterval , clearApp;
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -102,6 +102,29 @@ const currencies = new Map([
   ['EUR', 'Euro'],
   ['GBP', 'Pound sterling'],
 ]);
+
+//Create a clock timer of 2 min 
+let timerClock = function(){
+  labelTimer.textContent=`02 : 00`;
+  let t = 59;
+  let min = 1;
+  timerInterval = setInterval(()=>{
+    labelTimer.textContent=`0${min} : ${(t+'').padStart(2,0)}`;
+    t--;
+    if(t<0){
+       t=59;
+       --min;
+    }
+  },1000);
+
+  //To log out the account and stop the clock when reached 2 min time limit
+  clearApp = setTimeout(()=>{
+    containerApp.style.opacity=0;
+    clearInterval(timerInterval);
+  },120000);
+
+  timerActive=1;
+}
 
 //Calculate days
 let calcDate = function(dateMov){
@@ -251,6 +274,15 @@ const updateUI = function(account){
 btnLogin.addEventListener('click', function(e){
   //Prevent Form from submitting
   e.preventDefault();
+
+    //Close the clock if timerActive is equal to 1;
+    if(timerActive===1){
+      timerActive=0;
+      clearInterval(timerInterval);
+      clearTimeout(clearApp);
+    }
+  timerClock();
+
   currentAccount= accounts.find(function(value){
     return value.username === inputLoginUsername.value;
   })
@@ -280,7 +312,6 @@ btnLogin.addEventListener('click', function(e){
     console.log(loc);
     let dateFormat = new Intl.DateTimeFormat(loc,options);
     labelDate.textContent=dateFormat.format(dateNow);
-        
     const abc = Array.from(document.querySelectorAll('.movements__value'), v => v.textContent.replace('€',''));
     console.log(abc);
   }
@@ -314,6 +345,11 @@ btnTransfer.addEventListener('click',function(e){
   if(accountToTransfer.movementsDates)accountToTransfer.movementsDates.push(date.toISOString());
   updateUI(currentAccount);
   };
+
+  //Reset Timer
+  clearInterval(timerInterval);
+  clearTimeout(clearApp);
+  timerClock();
 })
 
 //To close the account
@@ -336,17 +372,26 @@ btnLoan.addEventListener('click',function(e){
   let loanAmt = Math.floor(Number(inputLoanAmount.value));
   let maxDepositAmt = currentAccount.movements.some((value)=> value > 0 && loanAmt <= value/10 );
   if(loanAmt > 0 && maxDepositAmt){
-    alert('Loan has been approved and money has been deposited in account .');
+    setTimeout(
+    function(){
+      alert('Loan has been approved and money has been deposited in account .');
     currentAccount.movements.push(loanAmt);
     let date = new Date();
     currentAccount.movementsDates.push(date.toISOString());
     updateUI(currentAccount);
+    },5000
+    )
   }
   else {
     alert(`You are not eligible for Loan`);
   }
 inputLoanAmount.value='';
-inputLoanAmount.blur();  
+inputLoanAmount.blur(); 
+
+    //Reset Timer
+    clearTimeout(clearApp);
+    clearInterval(timerInterval);
+    timerClock(); 
 });
 movements = [100,-100];
 console.log(movements.includes(-100));
@@ -360,6 +405,11 @@ let sorted = false;
 btnSort.addEventListener('click', function(){
   updateData(currentAccount, !sorted);
   sorted = !sorted;
+
+    //Reset Timer
+    clearTimeout(clearApp);
+    clearInterval(timerInterval);
+    timerClock();
 });
 
 const bankDepositSum =  accounts.flatMap((value)=> value.movements).filter((value)=> value>0).reduce((acc , value)=> acc+value);
@@ -486,6 +536,3 @@ labelBalance.addEventListener('click',function(){
 // let dat = new Date();
 // let day = `${dat.getDate()}`.padStart(2,0);
 // labelDate.textContent=`${day}/${dat.getMonth()+1}/${dat.getFullYear()}, ${dat.getHours()}: ${dat.getMinutes()}`;
-
-const num=3882121.6;
-console.log(new Intl.NumberFormat('ar-SY').format(num));
