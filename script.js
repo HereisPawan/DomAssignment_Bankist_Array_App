@@ -227,10 +227,11 @@ const calcDisplaySummary = function (ccAcc) {
         .reduce((acc, value) => acc + value)
         .toFixed(2)
     labelSumIn.textContent = `${incomes}€`
-    const outcomes = movements
-        .filter((value) => value < 0)
-        .reduce((acc, value) => acc + value)
-        .toFixed(2)
+
+    //If withdrwals is zero then reduce method should not proceed
+    const filterWith = movements.filter((value) => value < 0);
+    console.log(filterWith)
+    const outcomes = filterWith.length ? filterWith.reduce((acc, value) => acc + value).toFixed(2) : filterWith.length;
     labelSumOut.textContent = `${Math.abs(outcomes)}€`
     const interest = movements
         .filter((value) => value > 0)
@@ -429,7 +430,8 @@ btnLoan.addEventListener('click', function (e) {
             )
             currentAccount.movements.push(loanAmt)
             let date = new Date()
-            currentAccount.movementsDates.push(date.toISOString())
+            //Fixed bug when no dates avalibale in account
+            if(currentAccount.movementsDates) currentAccount.movementsDates.push(date.toISOString());
             updateUI(currentAccount)
         }, 5000)
     } else {
